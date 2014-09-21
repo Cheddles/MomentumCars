@@ -1,6 +1,5 @@
 class Cart{
  int cartHeight;  // make proportional to payload mass?
- int cartWidth;
  int xLoc;
  int yLoc;
  int stripeWidth;
@@ -10,21 +9,20 @@ class Cart{
  float momentum;  // horizontal momentum. moving left is negative, moving right is positive
  float velocity;
  
- Cart(int x, int y, int cartWide, int stripe, float massInit, float vInit){
+ Cart(int x, int y, int stripe, float massInit, float vInit){
    xLoc=x;
    yLoc=y;
-   cartWidth=cartWide;
    stripeWidth=stripe;
    mass = massInit;
    velocity=vInit;
-   wheelDiameter=cartWidth/5;
+   wheelDiameter=cartWidth/4;
  }
  
  void display(){
    cartHeight=int(mass*10);
    int vertLoc=yLoc+cartHeight/2;
    stroke(0);
-   strokeWeight(width*0.01);
+   strokeWeight(width*0.005);
    rectMode(CENTER);
    fill(carColour);
    rect(xLoc, yLoc-cartHeight/2, cartWidth, cartHeight);
