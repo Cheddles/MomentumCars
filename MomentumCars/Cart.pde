@@ -4,7 +4,7 @@ class Cart{
  int yLoc;
  int stripeWidth;
  int wheelDiameter;
- float tare=0;  // the weight of the cart without payload
+ float tare=0;  // the weight of the cart without payload (effective minimum mass)
  float mass;
  float momentum;  // horizontal momentum. moving left is negative, moving right is positive
  float velocity;
@@ -25,10 +25,10 @@ class Cart{
    strokeWeight(width*0.005);
    rectMode(CENTER);
    fill(carColour);
-   rect(xLoc, yLoc-cartHeight/2, cartWidth, cartHeight);
+   rect(xLoc, yLoc-cartHeight/2-wheelDiameter/2, cartWidth, cartHeight);
    fill(BGColour);
-   ellipse(xLoc-cartWidth/4, yLoc, wheelDiameter, wheelDiameter);
-   ellipse(xLoc+cartWidth/4, yLoc, wheelDiameter, wheelDiameter);
+   ellipse(xLoc-cartWidth/4, yLoc-wheelDiameter/2, wheelDiameter, wheelDiameter);
+   ellipse(xLoc+cartWidth/4, yLoc-wheelDiameter/2, wheelDiameter, wheelDiameter);
  }
  
  void move(int deltaT){
