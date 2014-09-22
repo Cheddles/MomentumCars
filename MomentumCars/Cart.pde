@@ -5,7 +5,7 @@ class Cart{
  int stripeWidth;
  int wheelDiameter;
  float tare=0;  // the weight of the cart without payload (effective minimum mass)
- float mass;
+ float mass;  // in kg
  float momentum;  // horizontal momentum. moving left is negative, moving right is positive
  float velocity;
  boolean dragging=false;  // is the cart being dragged to change mass
@@ -32,6 +32,10 @@ class Cart{
    fill(BGColour);
    ellipse(xLoc-cartWidth/4, yLoc-wheelDiameter/2, wheelDiameter, wheelDiameter);
    ellipse(xLoc+cartWidth/4, yLoc-wheelDiameter/2, wheelDiameter, wheelDiameter);
+   fill(0);
+   textSize(height/20);
+   textAlign(CENTER, CENTER);
+   text(str(mass), xLoc, yLoc+height/15);
  }
  
  void move(int deltaT){  //moving after explosive goes off
@@ -47,7 +51,6 @@ class Cart{
  }
  
  void clicked(int x, int y){
-//   cartHeight=int(mass*10);
    if ((y>(topLocation-height/20))&&(y<topLocation+height/20)){
      if ((x>(xLoc-cartWidth/2))&&(x<(xLoc+cartWidth/2))){
        dragging=true;
@@ -61,4 +64,7 @@ class Cart{
    mass=(yLoc-wheelDiameter/2-topLocation)/10.0;
  }
  
+ void move(){
+   xLoc=xLoc+int(velocity*(thisTime-lastTime)/1000*distanceScale);
+ }
 }
