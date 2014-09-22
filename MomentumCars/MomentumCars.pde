@@ -1,5 +1,6 @@
 color BGColour=color(255,255,255);  // the fill colour (RGB) of the background
 color carColour=color(200,200,255);  // the fill colour (RGB) of the cars
+float distanceScale;  // pixels/metre
 int cartWidth = 80;  // display width of the carts (both the same)
 int trackHeight = 400;  // y-location of the carts
 int lastTime;  // last timestamp in ms
@@ -19,12 +20,14 @@ void setup(){
   centreLoc=int(random(float(width)*0.2, float(width)*0.8));
   cartLeft= new Cart(centreLoc-(cartWidth+chargeDiameter)/2, trackHeight, 10, 5, 0);
   cartRight= new Cart(centreLoc+(cartWidth+chargeDiameter)/2, trackHeight, 10, 5, 0);
-  charge = new Charge(centreLoc, trackHeight, chargeDiameter, 0.0, 100.0);
+  charge = new Charge(centreLoc, trackHeight, chargeDiameter, 0.0, 10.0);
   track = new Track();
 }
 
 void draw(){
-  
+  lastTime=thisTime;
+  thisTime=millis();
+  distanceScale=(width/10.0);  // one metre per tick mark on the track
   if (cartLeft.dragging) cartLeft.drag(mouseY);
   if (cartRight.dragging) cartRight.drag(mouseY);
   
@@ -36,6 +39,8 @@ void draw(){
     
     case 1:  // moving
       charge.display();
+      cartLeft.move();
+      cartRight.move();
     break;
     
     case 2:  // completed
@@ -53,6 +58,7 @@ void mousePressed() {
   if (motionStage==0){
     cartLeft.clicked(mouseX,mouseY);
     cartRight.clicked(mouseX,mouseY);
+    charge.clicked(mouseX, mouseY);
   }
 }
 
