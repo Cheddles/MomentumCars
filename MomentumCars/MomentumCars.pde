@@ -25,6 +25,9 @@ void setup(){
 
 void draw(){
   
+  if (cartLeft.dragging) cartLeft.drag(mouseY);
+  if (cartRight.dragging) cartRight.drag(mouseY);
+  
   background(BGColour);
   switch (motionStage){
     case 0:  // loading
@@ -36,7 +39,7 @@ void draw(){
     break;
     
     case 2:  // completed
-    
+      
     break;
   }
   
@@ -46,4 +49,14 @@ void draw(){
   
 }
 
+void mousePressed() {
+  if (motionStage==0){
+    cartLeft.clicked(mouseX,mouseY);
+    cartRight.clicked(mouseX,mouseY);
+  }
+}
 
+void mouseReleased() {
+  cartLeft.dragging=false;
+  cartRight.dragging=false;
+}
