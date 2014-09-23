@@ -4,7 +4,6 @@ class Charge{  // explosive charge between carriages
   int xLoc;
   int yLoc;
   float velocity;  // velocity before explosion
-  int detTime;  // time detonated
   
   Charge(int x, int y, int d, float v, float imp){
     xLoc=x;
@@ -24,7 +23,7 @@ class Charge{  // explosive charge between carriages
       break;
       
       case 1:  // moving
-        fill(255,min((thisTime-detTime),255),min((thisTime-detTime),255));
+        fill(255,min((millis()-detTime),255),min((millis()-detTime),255));
       break;
       
       case 2:  // completed
@@ -33,7 +32,6 @@ class Charge{  // explosive charge between carriages
     }
 
     ellipse(centreLoc, trackHeight-cartWidth/4, chargeDiameter, chargeDiameter);
-    fill(255,0,0);
     textSize(height/8);
     textAlign(CENTER, CENTER);
     text("GO!!", width/2, height*0.85);
@@ -43,7 +41,7 @@ class Charge{  // explosive charge between carriages
      float radius1=pow(pow(x-centreLoc,2)+pow(y-(trackHeight-cartWidth/4),2),0.5);
      if (radius1<diameter/2){
        motionStage=1;
-       detTime=thisTime;
+       detTime=millis();
        cartLeft.velocity=-impulse/cartLeft.mass;
        cartRight.velocity=impulse/cartRight.mass;
      }
