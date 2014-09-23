@@ -17,7 +17,7 @@ class Cart{
    yLoc=y;
    mass = massInit;
    velocity=vInit;
-   wheelDiameter=cartWidth/4;
+   wheelDiameter=cartWidth/3;
  }
 
   void display(){
