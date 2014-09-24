@@ -4,7 +4,6 @@ class Charge{  // explosive charge between carriages
   int xLoc;
   int yLoc;
   float velocity;  // velocity before explosion
-  int detTime;  // time detonated
   
   Charge(int x, int y, int d, float v, float imp){
     xLoc=x;
@@ -24,28 +23,39 @@ class Charge{  // explosive charge between carriages
       break;
       
       case 1:  // moving
-        fill(255,min((thisTime-detTime),255),min((thisTime-detTime),255));
+        fill(255,min((millis()-detTime),255),min((millis()-detTime),255));
       break;
       
       case 2:  // completed
-      
+        
       break;
     }
 
-    ellipse(centreLoc, trackHeight-cartWidth/4, chargeDiameter, chargeDiameter);
-    fill(255,0,0);
     textSize(height/8);
+ 
     textAlign(CENTER, CENTER);
-    text("GO!!", width/2, height*0.85);
+    if (motionStage<=1){
+      ellipse(centreLoc, trackHeight-cartWidth/4, chargeDiameter, chargeDiameter);
+      text("GO!!", width/2, height*0.85);
+    }
+    else if (motionStage==2) {
+      fill(0);
+      text("Reset", width/2, height*0.85);
+    }
   }
   
    void clicked(int x, int y){
      float radius1=pow(pow(x-centreLoc,2)+pow(y-(trackHeight-cartWidth/4),2),0.5);
-     if (radius1<diameter/2){
-       motionStage=1;
-       detTime=thisTime;
-       cartLeft.velocity=-impulse/cartLeft.mass;
-       cartRight.velocity=impulse/cartRight.mass;
+     if ((radius1<diameter/2)||((abs(x-width/2)<(width/3))&&(abs(y-height*0.85)<(height/6)))){
+       if (motionStage==0){
+         motionStage=1;
+         detTime=millis();
+         cartLeft.velocity=-impulse/cartLeft.mass;
+         cartRight.velocity=impulse/cartRight.mass;
+       }
+       else if (motionStage==2){
+         reset();
+       }
      }
    }
 }
