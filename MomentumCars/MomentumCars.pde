@@ -11,7 +11,7 @@ int centreLoc;  // location of the geometric centre of both carts before the exp
 int chargeDiameter=30;  //diameter of the charge between the two carts
 int score=0;
 int hiScore=0;
-int level=1;
+int level=2;
 /*
 Levels:
 1 = beginner (intuitive play) static start no numbers and timed release. Maximum stripe width
@@ -104,10 +104,11 @@ void checkWin(){
 }
 
 void showScore(){
+  fill(0);
   textSize(height/12);
   textAlign(LEFT);
   text("Score:"+str(score),width/30,height/10);
-    text("High Score:"+str(hiScore),width/30,height/5);
+  text("High Score:"+str(hiScore),width/30,height/5);
 }
 
 void reset(){

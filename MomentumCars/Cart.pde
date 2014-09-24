@@ -34,10 +34,18 @@ class Cart{
    strokeWeight(width*0.005);
    ellipse(xLoc-cartWidth/4, yLoc-wheelDiameter/2, wheelDiameter, wheelDiameter);
    ellipse(xLoc+cartWidth/4, yLoc-wheelDiameter/2, wheelDiameter, wheelDiameter);
-   fill(0);
-   textSize(height/30);
-   textAlign(CENTER, CENTER);
-   text(str(mass)+"kg", xLoc, yLoc+height/15);
+   switch(level){
+   case 1:
+   
+   break;
+   
+   case 2:
+     fill(0);
+     textSize(height/30);
+     textAlign(CENTER, CENTER);
+     text(str(mass)+"kg", xLoc, yLoc+height/15);
+   break;
+   }
  }
  
  void move(int deltaT){  //moving after explosive goes off
@@ -64,6 +72,7 @@ class Cart{
  void drag(int y){
    topLocation=y-yOffset;
    mass=(yLoc-wheelDiameter/2-topLocation)/10.0;
+   if (mass<tare) mass=tare;
  }
  
 // void move(){
