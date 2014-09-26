@@ -2,16 +2,17 @@ color BGColour=color(255,255,255);  // the fill colour (RGB) of the background
 color carColour=color(200,200,255);  // the fill colour (RGB) of the cars
 float distanceScale;  // pixels/metre
 int cartWidth;  // display width of the carts (both the same)
-int trackHeight = 400;  // y-location of the carts
+int trackHeight;  // y-location of the carts
 int startTime;
 int detTime;  // time charge set off in ms
 int thisTime;  // this timestamp in ms
 int motionStage=0;  // 0=loading, 1=exploded, 2=completed
 int centreLoc;  // location of the geometric centre of both carts before the explosion
-int chargeDiameter=30;  //diameter of the charge between the two carts
+int chargeDiameter;  //diameter of the charge between the two carts
+int maxTime=10000;  //maximum countdown in ms
 int score=0;
 int hiScore=0;
-int level=2;
+int level=1;
 /*
 Levels:
 1 = beginner (intuitive play) static start no numbers and timed release. Maximum stripe width
@@ -26,26 +27,22 @@ Track track;
 void setup(){
 
   size(800, 600);
+  if (frame != null) {
+    frame.setResizable(true);
+  }
   
-  switch(level){
-     case 1:
-       cartWidth=width/8;
-     break;
-     
-     case 2:
-       cartWidth=width/10;
-     break;
-   }
-   
-  centreLoc=int(random(float(width)*0.2, float(width)*0.8));
-  cartLeft= new Cart(centreLoc-(cartWidth+chargeDiameter)/2, trackHeight, 5, 0);
-  cartRight= new Cart(centreLoc+(cartWidth+chargeDiameter)/2, trackHeight, 5, 0);
-  charge = new Charge(centreLoc, trackHeight, chargeDiameter, 0.0, 10.0);
+  trackHeight=3*height/4;
+  reset();
+//  centreLoc=int(random(float(width)*0.2, float(width)*0.8));
+//  cartLeft= new Cart(centreLoc-(cartWidth+chargeDiameter)/2, trackHeight, 5, 0);
+//  cartRight= new Cart(centreLoc+(cartWidth+chargeDiameter)/2, trackHeight, 5, 0);
+//  charge = new Charge(centreLoc, trackHeight, chargeDiameter, 0.0, 10.0);
   track = new Track();
-  startTime=millis();
+//  startTime=millis();
 }
 
 void draw(){
+  trackHeight=3*height/4;
   distanceScale=(width/10.0);  // one metre per tick mark on the track
   if (cartLeft.dragging) cartLeft.drag(mouseY);
   if (cartRight.dragging) cartRight.drag(mouseY);
@@ -67,9 +64,10 @@ void draw(){
       
     break;
   }
-  charge.display();
+  
   cartLeft.display();
   cartRight.display();
+  charge.display();
   track.display();
   checkWin();
   showScore();
@@ -112,6 +110,16 @@ void showScore(){
 }
 
 void reset(){
+  chargeDiameter=height/30;
+  switch(level){
+     case 1:
+       cartWidth=width/8;
+     break;
+     
+     case 2:
+       cartWidth=width/10;
+     break;
+   }
   centreLoc=int(random(float(width)*0.2, float(width)*0.8));
   cartLeft= new Cart(centreLoc-(cartWidth+chargeDiameter)/2, trackHeight, 5, 0);
   cartRight= new Cart(centreLoc+(cartWidth+chargeDiameter)/2, trackHeight, 5, 0);

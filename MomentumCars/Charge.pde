@@ -4,6 +4,8 @@ class Charge{  // explosive charge between carriages
   int xLoc;
   int yLoc;
   float velocity;  // velocity before explosion
+  int timeToExplode;  // time (in ms) of explosion
+  boolean winPend=false;
   
   Charge(int x, int y, int d, float v, float imp){
     xLoc=x;
@@ -11,15 +13,20 @@ class Charge{  // explosive charge between carriages
     diameter=d;
     velocity=v;
     impulse=imp;
+    timeToExplode=millis()+maxTime;
   }
   
   void display(){
     strokeWeight(0);
     stroke(255);
     
-    switch (motionStage){
+    textSize(height/8);
+ 
+    textAlign(CENTER, CENTER);
+    if (motionStage<=1){
+      switch (motionStage){
       case 0:  // loading
-        fill(127);
+        fill(200);
       break;
       
       case 1:  // moving
@@ -29,14 +36,23 @@ class Charge{  // explosive charge between carriages
       case 2:  // completed
         
       break;
-    }
-
-    textSize(height/8);
- 
-    textAlign(CENTER, CENTER);
-    if (motionStage<=1){
+      }
       ellipse(centreLoc, trackHeight-cartWidth/4, chargeDiameter, chargeDiameter);
+      fill(0);
       text("GO!!", width/2, height*0.85);
+      if ((level==1)&&(motionStage==0)){
+        if (timeToExplode<=millis()){
+           motionStage=1;
+           detTime=millis();
+           cartLeft.velocity=-impulse/cartLeft.mass;
+           cartRight.velocity=impulse/cartRight.mass;
+        }
+        else{
+          fill(0);
+          textSize(height/25);
+          text(str(int((timeToExplode-millis())/1000)+1),centreLoc, trackHeight-cartWidth/3.5);
+        }
+      }
     }
     else if (motionStage==2) {
       fill(0);
